@@ -11,7 +11,11 @@ st.write("Simply upload your documents, ask any question ❓, and let DocuChat A
 st.subheader("Key Features:")
 
 st.write("Real-Time Document Search: Instant access to information within your documents using our advanced Retrieval-Augmented Generation (RAG) system ⚡.")
+st.write("\n")
 st.write("Conversational AI: Interact naturally with your documents, asking follow-up questions and receiving relevant, detailed responses 💬.")
+st.write("\n")
 st.write("Cited Answers: Get answers you can trust, complete with citations and links to the source sections in your documents 🔗.")
+st.write("\n")
 st.write("Summarization: Generate concise summaries of lengthy documents, customized to your needs ✂️.")
+st.write("\n")
 st.write("DocuChat AI – the future of document interaction is here 🚀. Start your journey now and experience a smarter way to work with documents.")
