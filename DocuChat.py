@@ -7,6 +7,8 @@ st.title("Welcome to DocuChat AI: Your Intelligent Document Assistant 📄🤖")
 st.write("DocuChat AI empowers you to engage in natural conversations with your documents. Whether you're navigating complex legal texts ⚖️, conducting academic research 📚, or reviewing business reports 📊, our AI-powered platform helps you retrieve the information you need with ease.")
 st.write("Simply upload your documents, ask any question ❓, and let DocuChat AI search through them 🔍 to provide you with precise, context-aware responses. From quick fact-checking to in-depth answers with real-time document citations 📝, we've got you covered.")
 
+st.image(image="assets/670273c7-7f3c-40ac-b353-87a86f03596c.webp")
+
 
 st.subheader("Key Features:")
 
