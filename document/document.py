@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+from llama_index.core import Document, SimpleDirectoryReader
 
 
 def make_temp_dir(temp_dir="document/temp"):
@@ -32,4 +33,7 @@ def save_documents(documents, temp_dir="document/temp"):
         return saved_files
     except Exception as e:
         st.error(f"Unable to save documents. {e.args}")
+        
+def load_documents(saved_files, temp_dir="document/temp"):
+    reader=SimpleDirectoryReader()
         
