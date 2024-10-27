@@ -1,4 +1,5 @@
 import os
+import shutil
 import streamlit as st
 from llama_index.core import Document, SimpleDirectoryReader
 
@@ -16,7 +17,7 @@ def make_temp_dir(temp_dir="document/temp"):
 def remove_temp_dir(temp_dir="document/temp"):
     try:
         if os.path.exists(temp_dir):
-            os.rmdir(temp_dir)
+            shutil.rmtree(temp_dir)
     except Exception as e:
         st.error(f"Unable to remove temp directory. {e.args}")
         
