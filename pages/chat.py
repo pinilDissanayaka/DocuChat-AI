@@ -15,3 +15,5 @@ if uploaded_file is not None:
     remove_temp_dir(temp_dir)
     
     st.write(len(documents), "documents uploaded")
+    
+    st.markdown(documents)
