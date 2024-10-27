@@ -41,7 +41,7 @@ def load_documents(temp_dir="document/temp"):
         loaded_documents=reader.load_data()
         
         for loaded_document in loaded_documents:
-            documents.append(Document(text=loaded_document.page_content, name=loaded_document.name))
+            documents.append(Document(text=loaded_document.text, name=loaded_document.name))
         
         return documents
     except Exception as e:
