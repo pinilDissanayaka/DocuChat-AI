@@ -33,8 +33,16 @@ def save_documents(documents, temp_dir="document/temp"):
         st.error(f"Unable to save documents. {e.args}")
         
 def load_documents(temp_dir="document/temp"):
-    reader=SimpleDirectoryReader(input_dir=temp_dir, recursive=True)
-    
-    documents=reader.load_data()
-    
-    return documents
+    try:
+        reader=SimpleDirectoryReader(input_dir=temp_dir, recursive=True)
+        
+        documents=[]
+        
+        loaded_documents=reader.load_data()
+        
+        for loaded_document in loaded_documents:
+            documents.append(Document(text=loaded_document.page_content, name=loaded_document.name))
+        
+        return documents
+    except Exception as e:
+        st.error(f"Unable to load documents. {e.args}")
