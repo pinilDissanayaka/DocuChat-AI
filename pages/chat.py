@@ -10,7 +10,7 @@ uploaded_file=st.file_uploader("Upload your documents", type=["pdf", "docx", "tx
 
 if uploaded_file:
     with st.status(label="Uploading documents..", expanded=True):
-        st.write("Make directory..")
+        st.write("Make temporary directory..")
         temp_dir=make_temp_dir()
         
         st.write("Saving documents..")
@@ -19,7 +19,7 @@ if uploaded_file:
         st.write("Loading documents..")
         documents=load_documents(temp_dir)
         
-        st.write("Removing temp directory..")
+        st.write("Removing temporary directory..")
         remove_temp_dir(temp_dir)
     
         st.write(len(documents), "documents uploaded")
