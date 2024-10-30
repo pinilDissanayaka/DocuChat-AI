@@ -19,11 +19,11 @@ if uploaded_file:
         saved_paths=save_documents(documents=uploaded_file, temp_dir=temp_dir)
         
         st.write("Loading documents..")
-        documents=load_documents(temp_dir=temp_dir)
+        loaded_documents=load_documents(temp_dir=temp_dir)
         
         st.write("Removing temporary directory..")
         remove_temp_dir(temp_dir=temp_dir)
     
-        st.write(len(documents), "documents uploaded")
+        st.write(len(load_documents), "documents uploaded")
     
-        st.markdown(documents)
+        st.markdown(load_documents)

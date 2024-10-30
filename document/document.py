@@ -23,14 +23,13 @@ def remove_temp_dir(temp_dir):
         
 def save_documents(documents, temp_dir):
     try:
-        saved_paths=[]
         for document in documents:
             saved_path=os.path.join(temp_dir, document.name)
             
             with open(saved_path, "wb") as f:
                 f.write(document.read())
-                saved_paths.append(saved_path)
-        return saved_paths
+    
+        return temp_dir
     except Exception as e:
         st.error(f"Unable to save documents. {e.args}")
         
