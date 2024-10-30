@@ -7,6 +7,17 @@ temp_dir="document/upload"
 
 st.set_page_config(page_title="DocuChat AI: Your Intelligent Document Assistant", page_icon="📄", layout="wide")
 
+with st.sidebar:
+    st.title("Chat with your documents")
+    st.write("""Upload your documents and ask any question. 
+             DocuChat AI will search through them to provide you with precise, 
+             context-aware responses.""")
+    
+    if st.button("Reset"):
+        if "messages" in st.session_state.keys():
+            st.session_state.messages = None
+        
+
 
 uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
 
