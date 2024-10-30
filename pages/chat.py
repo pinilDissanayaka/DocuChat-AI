@@ -52,7 +52,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 retriever = get_retriever()
-                response = chat_with_pdf(question=prompt, retriever=st.session_state.retriever)
+                response = chat_with_pdf(question=prompt, retriever=retriever, history=st.session_state.messages)
                 
         message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
