@@ -25,7 +25,7 @@ uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_mul
 
 if uploaded_file:
     if st.button("Upload"):
-        with st.status(label="Uploading documents..", expanded=True):
+        with st.status(label="Uploading documents..", expanded=False):
             temp_dir=make_temp_dir(temp_dir=temp_dir)
             
             st.write("Saving documents..")
