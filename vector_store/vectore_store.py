@@ -39,6 +39,7 @@ def load_to_index(documents, chunk_size=1100, chunk_overlap=450, index_name="doc
         
         vector_store=PineconeVectorStore(
             index_name=index_name,
+            embedding=embedding_model
         )
         
         vector_store.from_documents(documents=splitted_documents, embedding=embedding_model)
