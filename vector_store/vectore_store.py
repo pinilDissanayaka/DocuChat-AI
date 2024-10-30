@@ -3,8 +3,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai.embeddings import OpenAIEmbeddings
 from pinecone import Pinecone, ServerlessSpec
 import streamlit as st
-from time import sleep
-
+import traceback
 def create_index(index_name="docuchat", dimension=1536):
     try:
         pinecone=Pinecone()
@@ -43,5 +42,4 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
         
         return retriever
     except Exception as e:
-        exception()
-        st.exception(f"Unable load documents to index. {e.args}")
+        st.exception(f"Unable load documents to index. {e.args} \n {traceback.format_exc()}")
