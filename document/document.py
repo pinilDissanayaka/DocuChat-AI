@@ -2,6 +2,7 @@ import os
 import shutil
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_core.documents import Document
 
 temp_dir="document/upload"
 def make_temp_dir(temp_dir=temp_dir):
@@ -36,10 +37,11 @@ def save_documents(documents, temp_dir=temp_dir):
         
 def load_documents(saved_paths):
     try:
-        loaded_documents=[]
+        list_loaded_documents=[]
         for saved_path in saved_paths:
-            loaded_documents.append(PyPDFLoader(saved_path).load())
+            list_loaded_documents.append(PyPDFLoader(saved_path).load())
             
-        return loaded_documents
+        
+        return list_loaded_documents[0]
     except Exception as e:
         st.error(f"Unable to load documents. {e.args}")
