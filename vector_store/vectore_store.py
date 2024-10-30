@@ -4,7 +4,7 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 from pinecone import Pinecone, ServerlessSpec
 import streamlit as st
 import traceback
-def create_index(index_name="docuchat", dimension=1536):
+def create_index(index_name="docuchat", dimension=3072):
     try:
         pinecone=Pinecone()
         
