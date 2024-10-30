@@ -38,10 +38,7 @@ if uploaded_file:
             
             st.write("Loading to index..")
             
-            retriever=load_to_index(documents=loaded_documents)
-            
-            if "retriever" not in st.session_state.keys():
-                st.session_state.retriever = retriever
+            load_to_index(documents=loaded_documents)
             
             remove_temp_dir(temp_dir=temp_dir)
         

@@ -41,9 +41,8 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
         
         embedding_model=OpenAIEmbeddings(model=embedding_model)
         
-        retriever=PineconeVectorStore.from_documents(documents=splitted_documents, embedding=embedding_model, index_name=index_name).as_retriever()
+        PineconeVectorStore.from_documents(documents=splitted_documents, embedding=embedding_model, index_name=index_name).as_retriever()
                 
-        return retriever
     except Exception as e:
         st.exception(f"Unable load documents to index. {e.args}")
         
