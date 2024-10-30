@@ -51,10 +51,8 @@ if st.session_state.messages[-1]["role"] != "assistant":
         retriever=st
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
-                if "retriever" not in st.session_state.keys():
-                    st.session_state.retriever = get_retriever()
-                else:
-                    response = chat_with_pdf(question=prompt, index_name=index_name, retriever=st.session_state.retriever)
+                retriever = get_retriever()
+                response = chat_with_pdf(question=prompt, retriever=st.session_state.retriever)
                 
         message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
