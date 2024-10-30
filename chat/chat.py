@@ -2,11 +2,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
-from langchain_pinecone import PineconeVectorStore
 from time import sleep
-from langchain_openai import OpenAIEmbeddings
 from vector_store import get_retriever
-import streamlit as st
 
 def chat_with_pdf(question:str):
     question_prompt_template="""Given the following context and a question, 
