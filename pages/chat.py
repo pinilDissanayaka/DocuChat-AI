@@ -1,7 +1,8 @@
 import streamlit as st
 from document import make_temp_dir, remove_temp_dir, save_documents, load_documents
-from vector_store import create_index, load_to_index, get_retriever
+from vector_store import create_index, load_to_index
 from chat import chat_with_pdf, stream_chat
+import traceback
 
 temp_dir="document/upload"
 
@@ -70,3 +71,4 @@ if st.session_state.messages[-1]["role"] != "assistant":
         st.session_state.messages.append(message)
     except Exception as e:
         st.warning(f"An unexpected error occurred: {str(e.args)}. Please try again.", icon="⚠️")
+        st.exception(f"{traceback.format_exc()}")
