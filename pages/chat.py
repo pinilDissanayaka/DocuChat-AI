@@ -63,8 +63,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
         retriever=st
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
-                retriever = get_retriever()
-                response = chat_with_pdf(question=prompt, retriever=retriever)
+                response = chat_with_pdf(question=prompt)
                 st.write_stream(stream=stream_chat(response=response))
                 
         message = {"role": "assistant", "content": response}

@@ -3,8 +3,10 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai.chat_models import ChatOpenAI
 from time import sleep
+from vector_store import get_retriever
 
-def chat_with_pdf(question:str, retriever:str):
+def chat_with_pdf(question:str):
+    
 
     question_prompt_template= """Given the following context and a question, 
     generate an answer based on this context only.
@@ -21,6 +23,8 @@ def chat_with_pdf(question:str, retriever:str):
     """
 
     question_prompt=ChatPromptTemplate.from_template(question_prompt_template)
+    
+    retriever = get_retriever()
 
     question_chain = (
         {"CONTEXT": RunnablePassthrough(), "QUESTION":RunnablePassthrough()}
