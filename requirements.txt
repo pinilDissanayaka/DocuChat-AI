@@ -1,2 +1,4 @@
-llama_index
-docx2txt
+pypdf
+langchain
+langchain_community
+langchain_core

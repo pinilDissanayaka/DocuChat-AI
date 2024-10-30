@@ -14,10 +14,10 @@ if uploaded_file:
         temp_dir=make_temp_dir()
         
         st.write("Saving documents..")
-        temp_dir=save_documents(uploaded_file, temp_dir)
+        saved_paths=save_documents(uploaded_file, temp_dir)
         
         st.write("Loading documents..")
-        documents=load_documents(temp_dir)
+        documents=load_documents(saved_paths=saved_paths)
         
         st.write("Removing temporary directory..")
         remove_temp_dir(temp_dir)

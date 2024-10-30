@@ -1,10 +1,10 @@
 import os
 import shutil
 import streamlit as st
-from llama_index.core import Document, SimpleDirectoryReader
+from langchain_community.document_loaders import PyPDFLoader
 
-
-def make_temp_dir(temp_dir="document/temp"):
+temp_dir="document/upload"
+def make_temp_dir(temp_dir=temp_dir):
     try:
         if os.path.exists(temp_dir):
             return temp_dir
@@ -14,35 +14,32 @@ def make_temp_dir(temp_dir="document/temp"):
     except Exception as e:
         st.error(f"Unable to create temp directory. {e.args}")
         
-def remove_temp_dir(temp_dir="document/temp"):
+def remove_temp_dir(temp_dir=temp_dir):
     try:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
     except Exception as e:
         st.error(f"Unable to remove temp directory. {e.args}")
         
-def save_documents(documents, temp_dir="document/temp"):
+def save_documents(documents, temp_dir=temp_dir):
     try:
+        saved_paths=[]
         for document in documents:
             saved_path=os.path.join(temp_dir, document.name)
             
             with open(saved_path, "wb") as f:
                 f.write(document.read())
-        return temp_dir
+                saved_paths.append(saved_path)
+        return saved_paths
     except Exception as e:
         st.error(f"Unable to save documents. {e.args}")
         
-def load_documents(temp_dir="document/temp"):
+def load_documents(saved_paths):
     try:
-        reader=SimpleDirectoryReader(input_dir=temp_dir, recursive=True)
-        
-        documents=[]
-        
-        loaded_documents=reader.load_data()
-        
-        for loaded_document in loaded_documents:
-            documents.append(Document(text=loaded_document.text, doc_id=loaded_document.doc_id))
-        
-        return documents
+        loaded_documents=[]
+        for saved_path in saved_paths:
+            loaded_documents.append(PyPDFLoader(saved_path).load())
+            
+        return load_documents
     except Exception as e:
         st.error(f"Unable to load documents. {e.args}")
