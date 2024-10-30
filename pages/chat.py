@@ -7,7 +7,7 @@ temp_dir="document/upload"
 st.set_page_config(page_title="DocuChat AI: Your Intelligent Document Assistant", page_icon="📄", layout="wide")
 
 
-uploaded_file=st.file_uploader("Upload your documents", type=["pdf", "docx", "txt"], accept_multiple_files=True)
+uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
 
 if uploaded_file:
     with st.status(label="Uploading documents..", expanded=True):
