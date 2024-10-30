@@ -40,6 +40,6 @@ def load_documents(saved_paths):
         for saved_path in saved_paths:
             loaded_documents.append(PyPDFLoader(saved_path).load())
             
-        return load_documents
+        return loaded_documents
     except Exception as e:
         st.error(f"Unable to load documents. {e.args}")
