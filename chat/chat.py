@@ -2,12 +2,14 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
+from langchain_pinecone import PineconeVectorStore
 from time import sleep
+from langchain_openai import OpenAIEmbeddings
 from vector_store import get_retriever
 import streamlit as st
 
 def chat_with_pdf(question:str):
-    question_prompt_template= """Given the following context and a question, 
+    prompt_template="""Given the following context and a question, 
     generate an answer based on this context only.
     In the answer try to provide as much text as possible from "ANSWER" 
     section in the source document context without making much changes.
@@ -21,18 +23,21 @@ def chat_with_pdf(question:str):
         ANSWER:
     """
 
-    question_prompt=ChatPromptTemplate.from_template(question_prompt_template)
+    prompt=ChatPromptTemplate.from_template(prompt_template)
     
-    retriever = get_retriever()
+    embedding_model=OpenAIEmbeddings(model="text-embedding-3-large")
+    
+    retriever=PineconeVectorStore(embedding=embedding_model, index_name="docuchat").as_retriever()
 
-    question_chain = (
-        {"CONTEXT": retriever, "QUESTION":RunnablePassthrough()}
-        | question_prompt
-        | ChatOpenAI(model="gpt-3.5-turbo")
-        | StrOutputParser()
-        )
+
+    chain = (
+    {"QUESTION":RunnablePassthrough(), "CONTEXT": retriever}
+    | prompt
+    | ChatOpenAI(model="gpt-3.5-turbo")
+    | StrOutputParser()
+    )
         
-    response=question_chain.invoke({"QUESTION":question})
+    response=chain.invoke({"QUESTION":question})
     
     return response
 
