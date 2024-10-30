@@ -1,13 +1,11 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from langchain_openai.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from time import sleep
 from vector_store import get_retriever
 
 def chat_with_pdf(question:str):
-    
-
     question_prompt_template= """Given the following context and a question, 
     generate an answer based on this context only.
     In the answer try to provide as much text as possible from "ANSWER" 
