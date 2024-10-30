@@ -15,7 +15,7 @@ with st.sidebar:
     
     if st.button("Reset"):
         if "messages" in st.session_state.keys():
-            st.session_state.messages.clear()
+            st.session_state.clear()
         
 
 
