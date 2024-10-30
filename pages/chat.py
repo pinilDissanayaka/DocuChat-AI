@@ -24,7 +24,7 @@ if uploaded_file:
         index_name=create_index(index_name="docuchat", dimension=1536)
         
         st.write("Loading to index..")
-        retriever=load_to_index(documents=loaded_documents, chunk_size=1000, chunk_overlap=100, index_name=index_name, embedding_model="text-embedding-3-large")
+        retriever=load_to_index(documents=loaded_documents)
         
         st.write("Removing temporary directory..")
         remove_temp_dir(temp_dir=temp_dir)

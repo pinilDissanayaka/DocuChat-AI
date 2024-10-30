@@ -29,7 +29,7 @@ def create_index(index_name, dimension):
         st.exception(f"Unable to create index. {e.args}")
 
 
-def load_to_index(documents, chunk_size, chunk_overlap, index_name, embedding_model):
+def load_to_index(documents, chunk_size=1100, chunk_overlap=450, index_name="docuchat", embedding_model="text-embedding-3-large"):
     try:
         splited_documents=RecursiveCharacterTextSplitter(
             chunk_size=chunk_size, 
