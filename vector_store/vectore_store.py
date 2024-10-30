@@ -29,6 +29,18 @@ def create_index(index_name="docuchat", dimension=3072):
         return index_name
     except Exception as e:
         st.exception(f"Unable to create index. {e.args}")
+        
+
+def connect_to_index(index_name="docuchat"):
+    try:
+        embedding_model=OpenAIEmbeddings(model=embedding_model)
+        
+        vector_store=PineconeVectorStore.from_existing_index(index_name=index_name, embedding=embedding_model)
+        
+        return vector_store
+        
+    except Exception as e:
+        st.exception(f"Unable to connect to index. {e.args}")
 
 
 def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overlap=450, embedding_model="text-embedding-3-large"):
@@ -41,8 +53,8 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
         
         embedding_model=OpenAIEmbeddings(model=embedding_model)
         
-        vector_store=PineconeVectorStore.from_documents(documents=splitted_documents, embedding=embedding_model, index_name=index_name)
-                
+        vector_store=connect_to_index().from_documents(documents=splitted_documents, embedding=embedding_model, index_name=index_name)
+        
         retriever=vector_store.as_retriever()
         
         return retriever
