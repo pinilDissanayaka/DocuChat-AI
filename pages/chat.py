@@ -24,7 +24,7 @@ if uploaded_file:
         index_name=create_index()
         
         st.write("Loading to index..")
-        retriever=load_to_index(documents=loaded_documents, index_name=index_name)
+        retriever=load_to_index(documents=loaded_documents)
         
         st.write("Removing temporary directory..")
         remove_temp_dir(temp_dir=temp_dir)
