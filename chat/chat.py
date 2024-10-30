@@ -4,16 +4,13 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_openai.chat_models import ChatOpenAI
 from time import sleep
 
-def chat_with_pdf(question:str, retriever:str, history):
+def chat_with_pdf(question:str, retriever:str):
 
     question_prompt_template="""
     You are an AI assistant helping users interact with a document. 
     Below is the document context and previous chat history to help you respond to the user's question. 
     Use the document context to provide the most accurate and relevant answer.
-    Document Context: {CONTEXT}
-    
-    Chat History: {HISTORY}
-    
+    Document Context: {CONTEXT}    
     User's Question: {QUESTION}
 
     Instructions:
@@ -28,13 +25,13 @@ def chat_with_pdf(question:str, retriever:str, history):
     question_prompt=ChatPromptTemplate.from_template(question_prompt_template)
 
     question_chain = (
-        {"CONTEXT": RunnablePassthrough(), "QUESTION":RunnablePassthrough(), "HISTORY": RunnablePassthrough()}
+        {"CONTEXT": RunnablePassthrough(), "QUESTION":RunnablePassthrough()}
         | question_prompt
         | ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
         | StrOutputParser()
         )
     
-    response=question_chain.invoke({"QUESTION": question, "CONTEXT": retriever, "HISTORY": history})
+    response=question_chain.invoke({"QUESTION": question, "CONTEXT": retriever})
     
     return response
 

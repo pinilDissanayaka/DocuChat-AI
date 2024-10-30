@@ -12,25 +12,26 @@ uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_mul
 
 
 if uploaded_file:
-    with st.status(label="Uploading documents..", expanded=True):
-        temp_dir=make_temp_dir(temp_dir=temp_dir)
-        
-        st.write("Saving documents..")
-        saved_paths=save_documents(documents=uploaded_file, temp_dir=temp_dir)
-        
-        st.write("Loading documents..")
-        loaded_documents=load_documents(temp_dir=temp_dir)
-        
-        index_name=create_index()
-        
-        st.write("Loading to index..")
-        
-        retriever=load_to_index(documents=loaded_documents)
-        
-        if "retriever" not in st.session_state.keys():
-            st.session_state.retriever = retriever
-        
-        remove_temp_dir(temp_dir=temp_dir)
+    if st.button("Upload"):
+        with st.status(label="Uploading documents..", expanded=True):
+            temp_dir=make_temp_dir(temp_dir=temp_dir)
+            
+            st.write("Saving documents..")
+            saved_paths=save_documents(documents=uploaded_file, temp_dir=temp_dir)
+            
+            st.write("Loading documents..")
+            loaded_documents=load_documents(temp_dir=temp_dir)
+            
+            index_name=create_index()
+            
+            st.write("Loading to index..")
+            
+            retriever=load_to_index(documents=loaded_documents)
+            
+            if "retriever" not in st.session_state.keys():
+                st.session_state.retriever = retriever
+            
+            remove_temp_dir(temp_dir=temp_dir)
         
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [{"role": "assistant", "content": "How may I help you? 👋"}]
@@ -52,7 +53,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 retriever = get_retriever()
-                response = chat_with_pdf(question=prompt, retriever=retriever, history=st.session_state.messages)
+                response = chat_with_pdf(question=prompt, retriever=retriever)
                 st.write_stream(stream=stream_chat(response=response))
                 
         message = {"role": "assistant", "content": response}
