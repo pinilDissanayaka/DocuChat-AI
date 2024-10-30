@@ -27,13 +27,13 @@ def chat_with_pdf(question:str):
     retriever = get_retriever()
 
     question_chain = (
-        {"CONTEXT": RunnablePassthrough(), "QUESTION":RunnablePassthrough()}
+        {"CONTEXT": retriever, "QUESTION":RunnablePassthrough()}
         | question_prompt
         | ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
         | StrOutputParser()
         )
     
-    response=question_chain.invoke({"CONTEXT": retriever, "QUESTION": question})
+    response=question_chain.invoke(question)
     
     return response
 
