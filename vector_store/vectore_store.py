@@ -12,18 +12,18 @@ def create_index(index_name="docuchat", dimension=1536):
         existing_indexes=pinecone.list_indexes().names()
         
         if not index_name in existing_indexes:
-            pinecone.create_index(name=index_name, 
-                                dimension=dimension, 
-                                metric="cosine",
-                                spec=ServerlessSpec(
-                                    cloud="aws", 
-                                    region="us-east-1"
-                                    )
-                                )
+            st.write("Creating index..")
+            pinecone.create_index(
+                name=index_name,
+                dimension=dimension,
+                metric="cosine",
+                spec=ServerlessSpec(
+                    cloud='aws',
+                    region='us-east-1')
+                )
+        else:
+            st.write("Index already exists..")
             
-            while not pinecone.describe_index(index_name).status["ready"]:
-                sleep(3)
-                
         return index_name
     except Exception as e:
         st.exception(f"Unable to create index. {e.args}")
@@ -43,4 +43,5 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
         
         return retriever
     except Exception as e:
+        exception()
         st.exception(f"Unable load documents to index. {e.args}")

@@ -20,7 +20,6 @@ if uploaded_file:
         st.write("Loading documents..")
         loaded_documents=load_documents(temp_dir=temp_dir)
         
-        st.write("Creating index..")
         index_name=create_index()
         
         st.write("Loading to index..")
