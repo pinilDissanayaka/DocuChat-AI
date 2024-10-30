@@ -39,13 +39,12 @@ def load_to_index(documents, chunk_size=1100, chunk_overlap=450, index_name="doc
         
         vector_store=PineconeVectorStore(
             index_name=index_name,
-            embedding=embedding_model,
         )
         
-        vector_store.from_documents(documents=splitted_documents)
+        vector_store.from_documents(documents=splitted_documents, embedding=embedding_model)
         
         retriever=vector_store.as_retriever()
         
         return retriever
     except Exception as e:
-        st.exception(f"Unable to load to index. {e.args}")
+        st.exception(f"Unable load documents to index. {e.args}")
