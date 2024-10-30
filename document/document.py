@@ -37,11 +37,15 @@ def save_documents(documents, temp_dir=temp_dir):
         
 def load_documents(saved_paths):
     try:
+        loaded_documents=[]
         list_loaded_documents=[]
         for saved_path in saved_paths:
             list_loaded_documents.append(PyPDFLoader(saved_path).load())
             
+        for loaded_document in list_loaded_documents:
+            loaded_documents.append(Document(page_content=loaded_document.page_content, metadata=loaded_document.metadata))
+            
         
-        return list_loaded_documents[0]
+        return loaded_documents
     except Exception as e:
         st.error(f"Unable to load documents. {e.args}")
