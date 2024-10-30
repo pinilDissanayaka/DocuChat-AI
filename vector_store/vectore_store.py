@@ -5,7 +5,7 @@ from pinecone import Pinecone, ServerlessSpec
 import streamlit as st
 from time import sleep
 
-def create_index(index_name, dimension):
+def create_index(index_name="docuchat", dimension=1536):
     try:
         pinecone=Pinecone()
         
@@ -37,11 +37,14 @@ def load_to_index(documents, chunk_size=1100, chunk_overlap=450, index_name="doc
         
         embedding_model=OpenAIEmbeddings(model=embedding_model)
         
-        retriever=PineconeVectorStore.from_documents(
-            documents=splited_documents,
+        vector_store=PineconeVectorStore(
+            index_name=index_name,
             embedding=embedding_model,
-            index_name=index_name
-        ).as_retriever()
+        )
+        
+        vector_store.from_documents(documents=splited_documents)
+        
+        retriever=vector_store.as_retriever()
         
         return retriever
     except Exception as e:
