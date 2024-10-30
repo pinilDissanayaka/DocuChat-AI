@@ -38,7 +38,7 @@ def load_to_index(documents, index_name, chunk_size=1100, chunk_overlap=450, emb
         embedding_model=OpenAIEmbeddings(model=embedding_model)
         
         vector_store=PineconeVectorStore(
-            index_name=index_name,
+            index_name="docuchat",
             embedding=embedding_model
         )
         
