@@ -41,5 +41,5 @@ def chat_with_pdf(question:str, retriever:str, history):
 
 def stream_chat(response:str, delay=0.05):
     for word in response.split(" "):
-        yield word
+        yield word + " "
         sleep(delay)
