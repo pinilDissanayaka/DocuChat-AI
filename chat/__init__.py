@@ -1,1 +1,1 @@
-from .chat import chat_with_pdf
+from .chat import chat_with_pdf, stream_chat
