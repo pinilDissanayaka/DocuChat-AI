@@ -4,6 +4,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 from time import sleep
 from vector_store import get_retriever
+import streamlit as st
 
 def chat_with_pdf(question:str):
     question_prompt_template= """Given the following context and a question, 
@@ -28,7 +29,10 @@ def chat_with_pdf(question:str):
         {"CONTEXT": retriever, "QUESTION":RunnablePassthrough()}
         | question_prompt
         | ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+        | StrOutputParser()
         )
+    
+    st.write(retriever)
     
     response=question_chain.invoke(question)
     
