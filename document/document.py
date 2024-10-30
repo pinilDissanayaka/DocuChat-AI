@@ -1,11 +1,10 @@
 import os
 import shutil
 import streamlit as st
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain_core.documents import Document
 
-temp_dir="document/upload"
-def make_temp_dir(temp_dir=temp_dir):
+def make_temp_dir(temp_dir):
     try:
         if os.path.exists(temp_dir):
             return temp_dir
@@ -15,14 +14,14 @@ def make_temp_dir(temp_dir=temp_dir):
     except Exception as e:
         st.error(f"Unable to create temp directory. {e.args}")
         
-def remove_temp_dir(temp_dir=temp_dir):
+def remove_temp_dir(temp_dir):
     try:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir)
     except Exception as e:
         st.error(f"Unable to remove temp directory. {e.args}")
         
-def save_documents(documents, temp_dir=temp_dir):
+def save_documents(documents, temp_dir):
     try:
         saved_paths=[]
         for document in documents:
@@ -35,16 +34,9 @@ def save_documents(documents, temp_dir=temp_dir):
     except Exception as e:
         st.error(f"Unable to save documents. {e.args}")
         
-def load_documents(saved_paths):
+def load_documents(temp_dir):
     try:
-        loaded_documents=[]
-        list_loaded_documents=[]
-        for saved_path in saved_paths:
-            list_loaded_documents.append(PyPDFLoader(saved_path).load())
-            
-        for loaded_document in list_loaded_documents:
-            loaded_documents.append(Document(page_content=loaded_document.page_content, metadata=loaded_document.metadata))
-            
+        loaded_documents=DirectoryLoader(path=temp_dir, silent_errors=True, loader_cls=PyPDFLoader).load()
         
         return loaded_documents
     except Exception as e:
