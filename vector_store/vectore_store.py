@@ -31,7 +31,7 @@ def create_index(index_name="docuchat", dimension=1536):
 
 def load_to_index(documents, chunk_size=1100, chunk_overlap=450, index_name="docuchat", embedding_model="text-embedding-3-large"):
     try:
-        splited_documents=RecursiveCharacterTextSplitter(
+        splitted_documents=RecursiveCharacterTextSplitter(
             chunk_size=chunk_size, 
             chunk_overlap=chunk_overlap).split_documents(documents)
         
@@ -42,7 +42,7 @@ def load_to_index(documents, chunk_size=1100, chunk_overlap=450, index_name="doc
             embedding=embedding_model,
         )
         
-        vector_store.from_documents(documents=splited_documents)
+        vector_store.from_documents(documents=splitted_documents)
         
         retriever=vector_store.as_retriever()
         
