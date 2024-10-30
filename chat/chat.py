@@ -31,10 +31,8 @@ def chat_with_pdf(question:str):
         | ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
         | StrOutputParser()
         )
-    
-    st.write(retriever)
-    
-    response=question_chain.invoke(question)
+        
+    response=question_chain.invoke({"QUESTION":question})
     
     return response
 
