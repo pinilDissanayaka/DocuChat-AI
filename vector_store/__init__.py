@@ -1,1 +1,1 @@
-from .vectore_store import load_to_index, create_index, connect_to_index
+from .vectore_store import load_to_index, create_index, get_retriever

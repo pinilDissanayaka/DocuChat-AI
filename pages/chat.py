@@ -1,6 +1,6 @@
 import streamlit as st
 from document import make_temp_dir, remove_temp_dir, save_documents, load_documents
-from vector_store import create_index, load_to_index, connect_to_index
+from vector_store import create_index, load_to_index, get_retriever
 from chat import chat_with_pdf
 
 temp_dir="document/upload"
@@ -52,10 +52,9 @@ if st.session_state.messages[-1]["role"] != "assistant":
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 if "retriever" not in st.session_state.keys():
-                    retriever = connect_to_index()
-                    st.session_state.retriever = retriever
+                    st.session_state.retriever = get_retriever()
                 else:
-                    response = chat_with_pdf(question=prompt, index_name=index_name, retriever=retriever)
+                    response = chat_with_pdf(question=prompt, index_name=index_name, retriever=st.session_state.retriever)
                 
         message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
