@@ -1,6 +1,6 @@
 from langchain_pinecone.vectorstores import PineconeVectorStore
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from pinecone import Pinecone, ServerlessSpec
 import streamlit as st
 from time import sleep
