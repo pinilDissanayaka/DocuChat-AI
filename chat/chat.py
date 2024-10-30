@@ -9,7 +9,7 @@ from vector_store import get_retriever
 import streamlit as st
 
 def chat_with_pdf(question:str):
-    prompt_template="""Given the following context and a question, 
+    question_prompt_template="""Given the following context and a question, 
     generate an answer based on this context only.
     In the answer try to provide as much text as possible from "ANSWER" 
     section in the source document context without making much changes.
@@ -23,16 +23,13 @@ def chat_with_pdf(question:str):
         ANSWER:
     """
 
-    prompt=ChatPromptTemplate.from_template(prompt_template)
+    question_prompt=ChatPromptTemplate.from_template(question_prompt_template)
     
-    embedding_model=OpenAIEmbeddings(model="text-embedding-3-large")
-    
-    retriever=PineconeVectorStore(embedding=embedding_model, index_name="docuchat").as_retriever()
-
+    retriever=get_retriever()
 
     chain = (
     {"QUESTION":RunnablePassthrough(), "CONTEXT": retriever}
-    | prompt
+    | question_prompt
     | ChatOpenAI(model="gpt-3.5-turbo")
     | StrOutputParser()
     )
