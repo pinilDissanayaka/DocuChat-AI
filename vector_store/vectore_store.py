@@ -50,7 +50,7 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
 def get_retriever(index_name="docuchat"):
         embedding_model=OpenAIEmbeddings(model=embedding_model)
         
-        retriever=PineconeVectorStore(embedding=embedding_model, index_name=index_name).as_retriever()
+        retriever=PineconeVectorStore(index=index_name,embedding=embedding_model).as_retriever()
         
         return retriever
     
