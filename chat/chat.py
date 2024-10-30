@@ -37,7 +37,7 @@ def chat_with_pdf(question:str):
     | StrOutputParser()
     )
         
-    response=chain.invoke({"QUESTION":question})
+    response=chain.invoke(question)
     
     return response
 
