@@ -24,6 +24,6 @@ if uploaded_file:
         st.write("Removing temporary directory..")
         remove_temp_dir(temp_dir=temp_dir)
     
-        st.write(len(load_documents), "documents uploaded")
+        st.write(len(loaded_documents), "documents uploaded")
     
-        st.markdown(load_documents)
+        st.markdown(loaded_documents)
