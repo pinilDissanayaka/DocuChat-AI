@@ -6,20 +6,18 @@ from time import sleep
 
 def chat_with_pdf(question:str, retriever:str):
 
-    question_prompt_template="""
-    You are an AI assistant helping users interact with a document. 
-    Below is the document context and previous chat history to help you respond to the user's question. 
-    Use the document context to provide the most accurate and relevant answer.
-    Document Context: {CONTEXT}    
-    User's Question: {QUESTION}
+    question_prompt_template= """Given the following context and a question, 
+    generate an answer based on this context only.
+    In the answer try to provide as much text as possible from "ANSWER" 
+    section in the source document context without making much changes.
+    If the answer is not found in the context, kindly state "I don't know." 
+    Don't try to make up an answer.
 
-    Instructions:
-        Analyze the user's question in light of the document context and past interactions.
-        Retrieve relevant information from the document context to ensure accuracy.
-        If the answer is not clear from the context, 
-        provide the best possible response based on document insights and suggest further clarification if needed.
-        If the answer is not found in the context, kindly state "I don't know." Don't try to make up an answer.
-    Answer:
+        CONTEXT: {CONTEXT}
+
+        QUESTION: {QUESTION}
+    
+        ANSWER:
     """
 
     question_prompt=ChatPromptTemplate.from_template(question_prompt_template)
@@ -31,7 +29,7 @@ def chat_with_pdf(question:str, retriever:str):
         | StrOutputParser()
         )
     
-    response=question_chain.invoke({"QUESTION": question, "CONTEXT": retriever})
+    response=question_chain.invoke({"CONTEXT": retriever, "QUESTION": question})
     
     return response
 
