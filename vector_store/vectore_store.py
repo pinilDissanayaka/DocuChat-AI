@@ -3,7 +3,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai.embeddings import OpenAIEmbeddings
 from pinecone import Pinecone, ServerlessSpec
 import streamlit as st
-import traceback
+from time import sleep
 def create_index(index_name="docuchat", dimension=3072):
     try:
         pinecone=Pinecone()
@@ -22,6 +22,9 @@ def create_index(index_name="docuchat", dimension=3072):
                 )
         else:
             st.write("Index already exists..")
+            
+        while not pinecone.describe_index(name=index_name).status["ready"]:
+            sleep(3)
             
         return index_name
     except Exception as e:
@@ -42,4 +45,4 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
         
         return retriever
     except Exception as e:
-        st.exception(f"Unable load documents to index. {e.args} \n {traceback.format_exc()}")
+        st.exception(f"Unable load documents to index. {e.args}")
