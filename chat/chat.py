@@ -28,7 +28,6 @@ def chat_with_pdf(question:str):
         {"CONTEXT": retriever, "QUESTION":RunnablePassthrough()}
         | question_prompt
         | ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
-        | StrOutputParser()
         )
     
     response=question_chain.invoke(question)
