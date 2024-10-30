@@ -2,6 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai.chat_models import ChatOpenAI
+from time import sleep
 
 def chat_with_pdf(question:str, retriever:str, history):
 
@@ -36,3 +37,9 @@ def chat_with_pdf(question:str, retriever:str, history):
     response=question_chain.invoke({"QUESTION": question, "CONTEXT": retriever, "HISTORY": history})
     
     return response
+
+
+def stream_chat(response:str, delay=0.05):
+    for word in response.split(" "):
+        yield word
+        sleep(delay)
