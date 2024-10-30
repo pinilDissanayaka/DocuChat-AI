@@ -1,6 +1,7 @@
 import streamlit as st
 from document import make_temp_dir, remove_temp_dir, save_documents, load_documents
 from vector_store import create_index, load_to_index
+from chat import chat_with_pdf
 
 temp_dir="document/upload"
 
@@ -9,9 +10,9 @@ st.set_page_config(page_title="DocuChat AI: Your Intelligent Document Assistant"
 
 uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
 
+
 if uploaded_file:
     with st.status(label="Uploading documents..", expanded=True):
-        st.write("Make temporary directory..")
         temp_dir=make_temp_dir(temp_dir=temp_dir)
         
         st.write("Saving documents..")
@@ -23,7 +24,32 @@ if uploaded_file:
         index_name=create_index()
         
         st.write("Loading to index..")
-        retriever=load_to_index(documents=loaded_documents)
         
-        st.write("Removing temporary directory..")
+        load_to_index(documents=loaded_documents)
+        
         remove_temp_dir(temp_dir=temp_dir)
+        
+if "messages" not in st.session_state.keys():
+    st.session_state.messages = [{"role": "assistant", "content": "How may I help you? 👋"}]
+
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+
+if prompt := st.chat_input():
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.write(prompt)
+
+if st.session_state.messages[-1]["role"] != "assistant":
+    try:
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response = chat_with_pdf(question=prompt, index_name=index_name, retriever=retriever)
+                
+        message = {"role": "assistant", "content": response}
+        st.session_state.messages.append(message)
+    except Exception as e:
+        st.warning(f"An unexpected error occurred: {str(e.args)}. Please try again.", icon="⚠️")

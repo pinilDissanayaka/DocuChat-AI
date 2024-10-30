@@ -35,7 +35,9 @@ def load_to_index(documents, index_name="docuchat", chunk_size=1100, chunk_overl
     try:
         splitted_documents=RecursiveCharacterTextSplitter(
             chunk_size=chunk_size, 
-            chunk_overlap=chunk_overlap).split_documents(documents)
+            chunk_overlap=chunk_overlap,
+            length_function=len,
+            is_separator_regex=False).split_documents(documents)
         
         embedding_model=OpenAIEmbeddings(model=embedding_model)
         
