@@ -1,1 +1,1 @@
-from .secrect import load_secret
+from .secret import load_secret

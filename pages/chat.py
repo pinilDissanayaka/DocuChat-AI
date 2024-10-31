@@ -1,4 +1,5 @@
 import streamlit as st
+from secret import load_secret
 from document import make_temp_dir, remove_temp_dir, save_documents, load_documents
 from vector_store import create_index, load_to_index
 from chat import chat_with_pdf, stream_chat
@@ -14,16 +15,24 @@ with st.sidebar:
              DocuChat AI will search through them to provide you with precise, 
              context-aware responses.""")
     
+    if "OPENAI_API_KEY" or "PINECONE_API_KEY" not in st.secrets:
+        openai_api_key = st.text_input("Open AI API Key", type="password")
+        pinecone_api_key = st.text_input("Pinecone API Key", type="password")
+        
+        load_secret(openai_api_key=openai_api_key, pinecone_api_key=pinecone_api_key)
+    
     if st.button("Reset"):
         if "messages" in st.session_state.keys():
             st.session_state.clear()
-        
+            
+
+    uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
+    
+    if "uploaded_file" not in st.session_state.keys():
+        st.session_state["uploaded_file"] = uploaded_file
 
 
-uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
-
-
-if uploaded_file:
+if st.session_state["uploaded_file"] is not None:
     if st.button("Upload"):
         with st.status(label="Uploading documents..", expanded=False):
             temp_dir=make_temp_dir(temp_dir=temp_dir)
