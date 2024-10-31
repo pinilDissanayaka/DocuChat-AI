@@ -15,7 +15,7 @@ with st.sidebar:
              DocuChat AI will search through them to provide you with precise, 
              context-aware responses.""")
     
-    if "OPENAI_API_KEY" or "PINECONE_API_KEY" not in st.secrets:
+    if "OPENAI_API_KEY" and "PINECONE_API_KEY" not in st.secrets:
         openai_api_key = st.text_input("Open AI API Key", type="password")
         pinecone_api_key = st.text_input("Pinecone API Key", type="password")
         
