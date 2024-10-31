@@ -38,25 +38,24 @@ with st.sidebar:
         
 
 
-if st.session_state["uploaded_files"]:
-    if "upload_status" in st.session_state.keys():
-        if st.session_state["upload_status"]:
-            with st.status(label="Uploading documents..", expanded=False):
-                temp_dir=make_temp_dir(temp_dir=temp_dir)
-                
-                st.write("Saving documents..")
-                saved_paths=save_documents(documents=uploaded_files, temp_dir=temp_dir)
-                
-                st.write("Loading documents..")
-                loaded_documents=load_documents(temp_dir=temp_dir)
-                
-                index_name=create_index()
-                
-                st.write("Loading to index..")
-                
-                load_to_index(documents=loaded_documents)
-                
-                remove_temp_dir(temp_dir=temp_dir)
+if "upload_status" in st.session_state.keys():
+    if st.session_state["upload_status"]:
+        with st.status(label="Uploading documents..", expanded=False):
+            temp_dir=make_temp_dir(temp_dir=temp_dir)
+            
+            st.write("Saving documents..")
+            saved_paths=save_documents(documents=uploaded_files, temp_dir=temp_dir)
+            
+            st.write("Loading documents..")
+            loaded_documents=load_documents(temp_dir=temp_dir)
+            
+            index_name=create_index()
+            
+            st.write("Loading to index..")
+            
+            load_to_index(documents=loaded_documents)
+            
+            remove_temp_dir(temp_dir=temp_dir)
         
 if "OPENAI_API_KEY" and "PINECONE_API_KEY" in st.secrets:
     if "messages" not in st.session_state.keys():
