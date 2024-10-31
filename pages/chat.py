@@ -15,7 +15,7 @@ with st.sidebar:
              DocuChat AI will search through them to provide you with precise, 
              context-aware responses.""")
     
-    if "OPENAI_API_KEY" and "PINECONE_API_KEY" not in st.secrets:
+    if not "OPENAI_API_KEY" and "PINECONE_API_KEY" in st.secrets:
         openai_api_key = st.text_input("Open AI API Key", type="password")
         pinecone_api_key = st.text_input("Pinecone API Key", type="password")
         
@@ -51,30 +51,33 @@ if st.session_state["uploaded_file"] is not None:
             
             remove_temp_dir(temp_dir=temp_dir)
         
-if "messages" not in st.session_state.keys():
-    st.session_state.messages = [{"role": "assistant", "content": "How may I help you? 👋"}]
+if "OPENAI_API_KEY" and "PINECONE_API_KEY" in st.secrets:
+    if "messages" not in st.session_state.keys():
+        st.session_state.messages = [{"role": "assistant", "content": "How may I help you? 👋"}]
 
 
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.write(message["content"])
 
 
-if prompt := st.chat_input():
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.write(prompt)
+    if prompt := st.chat_input():
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.write(prompt)
 
-if st.session_state.messages[-1]["role"] != "assistant":
-    try:
-        retriever=st
-        with st.chat_message("assistant"):
-            with st.spinner("Thinking..."):
-                response = chat_with_pdf(question=prompt)
-                st.write_stream(stream=stream_chat(response=response))
-                
-        message = {"role": "assistant", "content": response}
-        st.session_state.messages.append(message)
-    except Exception as e:
-        st.warning(f"An unexpected error occurred: {str(e.args)}. Please try again.", icon="⚠️")
-        st.exception(f"{traceback.format_exc()}")
+    if st.session_state.messages[-1]["role"] != "assistant":
+        try:
+            retriever=st
+            with st.chat_message("assistant"):
+                with st.spinner("Thinking..."):
+                    response = chat_with_pdf(question=prompt)
+                    st.write_stream(stream=stream_chat(response=response))
+                    
+            message = {"role": "assistant", "content": response}
+            st.session_state.messages.append(message)
+        except Exception as e:
+            st.warning(f"An unexpected error occurred: {str(e.args)}. Please try again.", icon="⚠️")
+            st.exception(f"{traceback.format_exc()}")
+else:
+    st.error("Please provide API keys for Open AI and Pinecone.", icon="🚨")
