@@ -4,18 +4,18 @@
 
 Your Intelligent Document Assistant
 
-DocuChat AI enables users to engage in natural, conversational interactions with their documents. Built with LLaMA 3, LLaMA Index, and Pinecone, DocuChat AI provides quick, accurate responses to your questions by intelligently retrieving information from your document library.
+DocuChat AI enables users to engage in natural, conversational interactions with their documents. Built with ChatCPT turbo 3.5, Langchain, and Pinecone, DocuChat AI provides quick, accurate responses to your questions by intelligently retrieving information from your document library.
 
 ## 🌟 Features
 - 📂 Document Upload: Upload PDF, Word, or text files to the system for easy access and search.
-- 🔍 Intelligent Retrieval: With Pinecone and LLaMA Index, DocuChat AI can find the most relevant passages from your documents based on your questions.
+- 🔍 Intelligent Retrieval: With Pinecone and Langchain, DocuChat AI can find the most relevant passages from your documents based on your questions.
 - 💬 Conversational AI: DocuChat AI answers your queries conversationally, keeping track of the context.
 - 📑 Cited Responses: Each answer comes with citations, linking you back to the document source.
 - ✂️ Summarization: Get concise summaries of lengthy documents tailored to your specific needs.
 
 ## 📦 Tech Stack
-- LLaMA 3: For generating coherent and context-aware responses.
-- LLaMA Index: For optimized document indexing and retrieval.
+- ChatCPT turbo 3.5: For generating coherent and context-aware responses.
+- Langchain: For optimized document indexing and retrieval.
 - Pinecone: For fast and scalable vector search across document embeddings.
 - Frontend: Built with Streamlit for a seamless user experience.
 
