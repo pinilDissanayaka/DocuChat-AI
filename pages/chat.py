@@ -26,19 +26,25 @@ with st.sidebar:
             st.session_state.clear()
             
 
-    uploaded_file=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
+    uploaded_files=st.file_uploader("Upload your documents", type=["pdf"], accept_multiple_files=True)
     
-    if "uploaded_file" not in st.session_state.keys():
-        st.session_state["uploaded_file"] = uploaded_file
+    if "uploaded_files" not in st.session_state.keys():
+        st.session_state["uploaded_files"] = uploaded_files
+        
+    if uploaded_files:
+        if st.button("Upload"):
+            if "upload_status" not in st.session_state.keys():
+                st.session_state["upload_status"] = True
+        
 
 
-if st.session_state["uploaded_file"] is not None:
-    if st.button("Upload"):
+if st.session_state["uploaded_files"] is not None:
+    if st.session_state["upload_status"]:
         with st.status(label="Uploading documents..", expanded=False):
             temp_dir=make_temp_dir(temp_dir=temp_dir)
             
             st.write("Saving documents..")
-            saved_paths=save_documents(documents=uploaded_file, temp_dir=temp_dir)
+            saved_paths=save_documents(documents=uploaded_files, temp_dir=temp_dir)
             
             st.write("Loading documents..")
             loaded_documents=load_documents(temp_dir=temp_dir)
